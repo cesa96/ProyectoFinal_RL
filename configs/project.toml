@@ -1,0 +1,23 @@
+[project]
+seed = 42
+timezone = "UTC"
+
+[dataset]
+path = "data/binance-BTCUSDT-1h.pkl"
+source = "Gym Trading Environment downloader; Binance spot BTC/USDT"
+exchange = "binance"
+symbols = ["BTC/USDT"]
+timeframe = "1h"
+expected_frequency = "1h"
+since = "2020-01-01"
+until_exclusive = "2026-10-01"
+
+[preprocessing]
+interpolated_path = "data/binance-BTCUSDT-1h-interpolated.pkl"
+max_gap_hours = 5
+method = "causal_flat_forward_fill"
+
+[split]
+train_end_exclusive = "2024-10-01T00:00:00Z"
+validation_end_exclusive = "2025-10-01T00:00:00Z"
+held_out_end_exclusive = "2026-10-01T00:00:00Z"
