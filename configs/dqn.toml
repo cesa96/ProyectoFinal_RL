@@ -1,0 +1,52 @@
+# Configuración del agente DQN y del protocolo de entrenamiento (Persona 4).
+#
+# Todos los hiperparámetros exigidos en el punto 10 del enunciado están aquí.
+# src/train.py lee este archivo; no se deben poner hiperparámetros en el código.
+# Cualquier cambio de este archivo debe quedar en un commit para que la corrida
+# se pueda reproducir (train.py copia este archivo dentro de cada corrida).
+
+[agent]
+algorithm = "DQN"                  # Stable-Baselines3
+policy = "MlpPolicy"
+net_arch = [64, 64]                # red Q: 7 entradas -> 64 -> 64 -> 3 valores Q
+activation = "relu"
+learning_rate = 1e-4
+batch_size = 64
+gamma = 0.99                       # horizonte efectivo ~1/(1-γ) = 100 horas (~4 días)
+buffer_size = 100_000              # replay buffer
+learning_starts = 5_000            # pasos aleatorios antes de la primera actualización
+train_freq = 4                     # una actualización de la red cada 4 pasos
+gradient_steps = 1
+target_update_interval = 2_000     # copia de la red online a la red objetivo
+max_grad_norm = 10.0
+
+[exploration]
+strategy = "epsilon-greedy lineal"
+exploration_initial_eps = 1.0
+exploration_final_eps = 0.05
+exploration_fraction = 0.3         # fracción del entrenamiento en que epsilon decae
+
+[env]
+# Deben coincidir con los acuerdos del equipo y con los baselines (Persona 6).
+initial_capital = 100_000.0
+transaction_cost_bps = 10.0
+# Entrenamiento con episodios cortos y arranque aleatorio dentro del periodo de
+# entrenamiento: 1.024 horas ≈ 43 días. Validación siempre recorre la partición
+# completa desde el inicio.
+train_episode_length = 1_024
+train_random_start = true
+
+[training]
+reward = "v1_net_return"           # nombre en src/rewards.py (lo define la Persona 5)
+total_timesteps = 300_000          # presupuesto máximo de pasos
+seeds = [42, 43, 44]               # al menos 3 semillas para medir la variabilidad
+output_dir = "runs"
+
+[selection]
+# Selección de checkpoints SOLO con el periodo de validación. El held-out nunca
+# se carga en train.py.
+eval_freq = 20_000                 # cada cuántos pasos se evalúa en validación
+metric = "total_return"            # total_return | calmar
+# Criterio de parada: presupuesto fijo de pasos o early stopping si la métrica
+# de validación no mejora durante `patience` evaluaciones seguidas (0 = apagado).
+patience = 6

@@ -25,8 +25,10 @@ project/
 └── README.md
 ```
 
-Los módulos de entorno y agente, entrenamiento, evaluación y baselines son
-scaffolds explícitos para una etapa posterior y aún no implementan RL.
+El entorno (`src/environment.py`), el agente DQN (`src/agent.py`) y el
+entrenamiento (`src/train.py`, `configs/dqn.toml`) están implementados. La
+evaluación final y los baselines (`src/evaluate.py`, `src/baselines.py`) aún
+son scaffolds.
 
 ## Instalación
 
@@ -153,18 +155,69 @@ el proceso falla para que se revise la estrategia en lugar de inventar datos
 sin autorización. No use velas sintéticas como observaciones reales al evaluar
 riesgo o rendimiento financiero.
 
-## Entrenamiento, evaluación y baselines
+## Entrenamiento del agente DQN
 
-Los puntos de entrada previstos para una etapa futura son:
+El agente es un DQN de Stable-Baselines3 (`src/agent.py`). Todos los
+hiperparámetros, la recompensa a entrenar, las semillas y el criterio de
+parada están en `configs/dqn.toml`; `src/train.py` no tiene hiperparámetros en
+el código.
+
+Requisitos: haber generado `data/binance-BTCUSDT-1h-interpolated.pkl`
+(`python -m src.prepare_data`).
 
 ```bash
+# Entrena la recompensa configurada con las semillas 42, 43 y 44
 python -m src.train
+
+# Entrena otra versión de la recompensa registrada en src/rewards.py
+python -m src.train --reward v2_nombre
+
+# Corrida corta para probar el pipeline
+python -m src.train --seeds 42 --timesteps 10000 --eval-freq 5000 --output-dir runs_prueba
+```
+
+Protocolo:
+
+1. `train.py` construye solo los entornos de entrenamiento y validación; el
+   held-out se descarta explícitamente y nunca se carga.
+2. El agente entrena con episodios de 1.024 horas que empiezan en una vela
+   aleatoria del periodo de entrenamiento (reproducible con la semilla).
+3. Cada `eval_freq` pasos se recorre la validación completa con la política
+   greedy; si mejora la métrica de validación se guarda `best_model.zip`.
+4. Se detiene al llegar a `total_timesteps` o tras `patience` evaluaciones
+   sin mejora.
+5. Se repite con cada semilla; `summary.csv` reporta cada semilla y la media
+   y desviación entre semillas.
+
+Salidas en `runs/<recompensa>/`: `summary.csv`, `learning_curves.png` y una
+carpeta por semilla con `best_model.zip`, `last_model.zip`, `monitor.csv`,
+`validation_log.csv`, `config.json` y `metadata.json` (commit, versiones,
+hash del dataset, tiempo de entrenamiento).
+
+Cuando el equipo elija el agente final usando **solo validación**, se congela
+y se hace commit antes de la evaluación en held-out:
+
+```bash
+python -m src.train --freeze runs/v1_net_return/seed_42
+git add models/final && git commit -m "Agente final congelado"
+```
+
+El agente congelado se usa con la interfaz del enunciado:
+
+```python
+from src.agent import DQNAgent
+agent = DQNAgent.load("models/final/model.zip")
+action = agent.act(obs)
+```
+
+## Evaluación y baselines
+
+```bash
 python -m src.evaluate
 python -m src.baselines
 ```
 
-Por ahora los módulos reportan explícitamente que esa funcionalidad aún no
-está implementada.
+Estos módulos están a cargo de la Persona 6 y aún no están implementados.
 
 ## Reproducibilidad
 
@@ -242,11 +295,31 @@ Los cortes temporales y el período solicitado se leen de
 semilla se muestra como parte de la configuración, pero no interviene en los
 cálculos deterministas presentados.
 
-Esta receta cubre únicamente descarga/preparación, validación, partición y
-EDA. El agente RL, el entrenamiento, la evaluación de políticas y los
-baselines todavía no están implementados; sus comandos indicados en este
-README son puntos de entrada futuros, no resultados reproducibles de esta
-etapa.
+Esta receta cubre descarga/preparación, validación, partición y EDA.
+
+6. **Correr las pruebas:**
+
+   ```bash
+   python -m pytest
+   ```
+
+7. **Reproducir el entrenamiento** (ver "Entrenamiento del agente DQN"):
+
+   ```bash
+   python -m src.train
+   ```
+
+   Las semillas de entrenamiento (42, 43 y 44) están en `configs/dqn.toml`.
+   `src.agent.set_global_seed` fija Python, NumPy y PyTorch (un hilo y
+   algoritmos deterministas), Stable-Baselines3 recibe la misma semilla para la
+   exploración y el entorno la usa para los inicios aleatorios de episodio. En
+   la misma máquina y con las versiones fijadas, la misma semilla produce
+   exactamente los mismos pesos (`tests/test_agent.py`). Entre sistemas
+   operativos o CPU distintos pueden aparecer diferencias en los últimos
+   decimales.
+
+La evaluación final y los baselines (Persona 6) todavía no están
+implementados.
 
 Ejemplo de uso del loader:
 
