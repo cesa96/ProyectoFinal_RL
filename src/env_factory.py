@@ -16,7 +16,7 @@ simulación. El proceso se realiza en los siguientes pasos:
 3. Se descartan las filas del periodo de calentamiento. La media móvil de 168
    horas necesita una semana de historia, por lo que las primeras filas de
    entrenamiento no tienen todos los indicadores disponibles.
-4. El escalador se ajusta SOLO con las filas de entrenamiento y después se aplica
+4. El escalador se ajusta solo con las filas de entrenamiento y después se aplica
    a las tres particiones. Como consecuencia, las variables quedan con media 0 y
    desviación 1 en entrenamiento, pero no en validación ni en held-out, lo cual
    es el comportamiento esperado.
@@ -26,17 +26,6 @@ La posición del agente no pasa por el escalador. Esta variable no es una
 propiedad del mercado sino del propio agente, por lo que el entorno la agrega en
 su escala natural (0, 0.5 o 1). Por la misma razón, portfolio_value no se usa
 como variable de observación.
-
-Observación sobre la no estacionariedad
----------------------------------------
-El volumen del activo se encuentra en unidades de BTC y su nivel puede cambiar
-con el tiempo. Dado que el escalador se ajusta solamente con entrenamiento, la
-media escalada de log_volume en validación y en held-out puede alejarse de 0, lo
-cual indicaría una deriva de la variable. Esta diferencia se puede consultar en
-la tabla de medias de notebooks/prueba_entorno.ipynb. Si se confirma, la variable
-podría inducir al agente a reaccionar ante un cambio de régimen que no existía
-durante el entrenamiento, y debe tenerse en cuenta al interpretar los resultados
-y en la discusión de las limitaciones.
 """
 
 from __future__ import annotations
