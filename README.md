@@ -210,6 +210,10 @@ agent = DQNAgent.load("models/final/model.zip")
 action = agent.act(obs)
 ```
 
+La justificación del algoritmo, la tabla completa de hiperparámetros, el
+protocolo de entrenamiento y los resultados de la recompensa v1 están en
+[`docs/informe_persona4.md`](docs/informe_persona4.md).
+
 ## Evaluación y baselines
 
 ```bash
