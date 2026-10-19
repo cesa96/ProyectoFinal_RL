@@ -210,9 +210,65 @@ agent = DQNAgent.load("models/final/model.zip")
 action = agent.act(obs)
 ```
 
+Sensibilidad a hiperparámetros (cambia uno a la vez respecto a la
+configuración inicial, con la recompensa v1, las mismas semillas y midiendo
+solo en validación). El learning rate de `configs/dqn.toml` (3e-4) se eligió
+con este estudio:
+
+```bash
+python -m src.sensitivity run         # ~50 min en CPU (5 variantes × 3 semillas)
+python -m src.sensitivity summarize   # runs/sensitivity/sensitivity.md y .png
+```
+
+Para probar un valor puntual sin editar `configs/dqn.toml`:
+`python -m src.train --set agent.gamma=0.95 --output-dir runs/prueba`.
+
 La justificación del algoritmo, la tabla completa de hiperparámetros, el
 protocolo de entrenamiento y los resultados de la recompensa v1 están en
 [`docs/informe_persona4.md`](docs/informe_persona4.md).
+
+## Iterar la recompensa (Persona 5)
+
+Todo el ciclo se hace sin modificar el entorno, el agente ni el script de
+entrenamiento. Todo se evalúa en **validación**; `src/analysis.py` no permite
+usar el held-out.
+
+1. **Definir la nueva versión** en `src/rewards.py` y registrarla en
+   `REWARDS` con un nombre nuevo (el archivo trae la lista de variables
+   disponibles en `info` y un ejemplo con parámetro).
+2. **Entrenarla** con los mismos hiperparámetros y semillas que la v1
+   (~10 minutos en CPU para las 3 semillas):
+
+   ```bash
+   python -m src.train --reward v2_nombre
+   ```
+
+3. **Ver qué hace el agente** (posiciones en el tiempo, curva de capital
+   frente a comprar y mantener, operaciones acumuladas y valores Q en cada
+   hora):
+
+   ```bash
+   python -m src.analysis inspect runs/v2_nombre/seed_42
+   # acercar a un periodo para documentar una anomalía
+   python -m src.analysis inspect runs/v2_nombre/seed_42 --start 2025-02-15 --end 2025-04-15
+   ```
+
+   Archivos en `runs/v2_nombre/seed_42/analysis/`: `trajectory.csv`,
+   `behavior.png` y `stats.json`.
+4. **Comparar versiones** (media y desviación entre semillas):
+
+   ```bash
+   python -m src.analysis compare v1_net_return v2_nombre
+   ```
+
+   Genera `runs/comparison/reward_comparison.md` (tabla para el informe),
+   `.csv` y `.png`.
+
+Entrene cada versión nueva con `configs/dqn.toml` sin cambios, para que la
+diferencia se deba solo a la recompensa. El diagnóstico de la v1 está en
+`docs/informe_persona4.md`, sección 4: con la configuración final el agente
+pasa ~97 % del tiempo invertido, no supera a comprar y mantener y concentra
+sus operaciones en las caídas de alta volatilidad (febrero–abril de 2025).
 
 ## Evaluación y baselines
 
