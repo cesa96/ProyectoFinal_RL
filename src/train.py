@@ -401,6 +401,9 @@ def parse_args(argv=None):
     parser.add_argument("--freeze", type=Path, metavar="RUN_DIR",
                         help="congela el best_model.zip de esa corrida en models/final")
     parser.add_argument("--force", action="store_true")
+    parser.add_argument("--set", action="append", default=[], metavar="SECCION.CLAVE=VALOR",
+                        help="cambia un valor de configs/dqn.toml sin editarlo, "
+                             "p. ej. --set agent.gamma=0.95 (se puede repetir)")
     return parser.parse_args(argv)
 
 
@@ -417,6 +420,15 @@ def apply_overrides(config: dict, args) -> dict:
         config["selection"]["eval_freq"] = args.eval_freq
     if args.output_dir:
         training["output_dir"] = str(args.output_dir)
+    for assignment in args.set:
+        key, _, raw = assignment.partition("=")
+        section, _, name = key.partition(".")
+        if not raw or section not in config or name not in config[section]:
+            raise ValueError(f"--set inválido: {assignment!r}. Use SECCION.CLAVE=VALOR "
+                             "con una clave que exista en configs/dqn.toml.")
+        current = config[section][name]
+        config[section][name] = type(current)(json.loads(raw)) if not isinstance(
+            current, str) else raw
     return config
 
 

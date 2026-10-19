@@ -1,0 +1,18 @@
+{
+  "total_reward": 0.6575026612056071,
+  "total_return": 0.7433010555415223,
+  "max_drawdown": -0.35182535038786167,
+  "calmar": 2.1126989704468064,
+  "total_cost": 5045.643402177227,
+  "n_trades": 41,
+  "final_value": 174330.10555415222,
+  "pct_time_0": 0.0071926018951935155,
+  "pct_time_50": 0.0010275145564562164,
+  "pct_time_100": 0.9917798835483502,
+  "mean_hours_per_position": 213.6341463414634,
+  "buy_and_hold_return": 0.7933466442653536,
+  "run": "runs/v1_net_return/seed_44",
+  "model": "best",
+  "partition": "validation",
+  "reward": "v1_net_return"
+}

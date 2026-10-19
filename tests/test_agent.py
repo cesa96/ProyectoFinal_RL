@@ -104,3 +104,15 @@ def test_training_never_builds_held_out_environment():
     held_out_start = pd.Timestamp(load_split_config()["validation_end_exclusive"])
     assert pd.Timestamp(validation_env.timestamps[-1]) < held_out_start
     assert pd.Timestamp(train_env.timestamps[-1]) < pd.Timestamp(validation_env.timestamps[0])
+
+
+def test_set_override_changes_only_requested_value():
+    from src.train import apply_overrides, parse_args
+
+    base = load_dqn_config()
+    config = apply_overrides(base, parse_args(["--set", "agent.gamma=0.95"]))
+    assert config["agent"]["gamma"] == 0.95
+    assert config["agent"]["learning_rate"] == base["agent"]["learning_rate"]
+    assert base["agent"]["gamma"] == 0.99  # el archivo base no se modifica
+    with pytest.raises(ValueError):
+        apply_overrides(base, parse_args(["--set", "agent.no_existe=1"]))

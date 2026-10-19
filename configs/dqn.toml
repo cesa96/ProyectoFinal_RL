@@ -10,7 +10,7 @@ algorithm = "DQN"                  # Stable-Baselines3
 policy = "MlpPolicy"
 net_arch = [64, 64]                # red Q: 7 entradas -> 64 -> 64 -> 3 valores Q
 activation = "relu"
-learning_rate = 1e-4
+learning_rate = 3e-4                # elegido con validación (ver runs/sensitivity)
 batch_size = 64
 gamma = 0.99                       # horizonte efectivo ~1/(1-γ) = 100 horas (~4 días)
 buffer_size = 100_000              # replay buffer
