@@ -1,0 +1,70 @@
+{
+  "status": "complete",
+  "started_utc": "2026-10-20T18:33:27.676147+00:00",
+  "partition": "validation",
+  "reproduction": false,
+  "finished_utc": "2026-10-20T18:35:46.215182+00:00",
+  "first_valuation_input": "2024-10-01 00:00:00+00:00",
+  "last_valuation": "2025-09-30 23:00:00+00:00",
+  "n_prices": 8760,
+  "n_transitions": 8759,
+  "random_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61
+  ],
+  "initial_capital": 100000.0,
+  "transaction_cost_bps": 10.0,
+  "forced_final_liquidation": false,
+  "python": "3.12.14",
+  "versions": {
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "gymnasium": "1.4.0",
+    "stable-baselines3": "2.9.0",
+    "torch": "2.14.1"
+  },
+  "feature_names": [
+    "return",
+    "log_volume",
+    "dist_sma_24",
+    "dist_sma_168",
+    "rsi_scaled",
+    "volatility_24"
+  ],
+  "scaler_mean": [
+    7.415563376346518e-05,
+    7.695950120130658,
+    0.0006560354449507024,
+    0.005010814981369635,
+    0.01977607001754681,
+    0.005880500800157083
+  ],
+  "scaler_scale": [
+    0.007098535331017452,
+    0.9803337967602117,
+    0.01881130094207555,
+    0.05149531869275313,
+    0.3298598494851101,
+    0.004027270196733791
+  ],
+  "source_commit": "23c07d0017d581ab7a475d4df1c6515ace3156d1",
+  "summary_sha256": "d068b60bdd57f39cb579788aa6e62fe70531154aeaa28f63a0c0110e591f8c90"
+}
