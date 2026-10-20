@@ -1,4 +1,4 @@
-"""Sensibilidad del agente DQN a sus hiperparámetros (Persona 4).
+"""Sensibilidad del agente DQN a sus hiperparámetros.
 
 Se cambia UN hiperparámetro a la vez respecto a la configuración inicial
 (γ = 0,99, learning rate = 1e-4), con la recompensa v1, las mismas 3 semillas y el mismo

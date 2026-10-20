@@ -1,0 +1,42 @@
+{
+  "seed": 42,
+  "reward": "v5_turnover_drawdown",
+  "selection_metric": "total_return",
+  "best_timestep": 200000,
+  "best_validation": {
+    "timesteps": 200000,
+    "epsilon": 0.05,
+    "total_reward": 0.45362670308324216,
+    "total_return": 0.9103816438535433,
+    "max_drawdown": -0.29895524243687366,
+    "calmar": 3.045210501855562,
+    "total_cost": 3695.061306585505,
+    "n_trades": 38,
+    "final_value": 191038.16438535432,
+    "pct_time_0": 0.0038817216577234845,
+    "pct_time_50": 0.0034250485215207216,
+    "pct_time_100": 0.9926932298207558,
+    "is_best": true
+  },
+  "timesteps_trained": 300000,
+  "stopped_early": false,
+  "elapsed_seconds": 228.4,
+  "finished_utc": "2026-10-20T01:53:13+00:00",
+  "git": {
+    "commit": "d6f693284bfbe8a64b998453d59f51432d9460c5",
+    "dirty": true
+  },
+  "versions": {
+    "python": "3.13.16",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "torch": "2.14.1+cu130",
+    "gymnasium": "1.4.0",
+    "stable_baselines3": "2.9.0"
+  },
+  "dataset": {
+    "path": "data/binance-BTCUSDT-1h-interpolated.pkl",
+    "sha256": "951c865a2d9c277637c0220db7e3c7a7190841048b1b47187f9dadd5b1a212d1"
+  },
+  "held_out_used": false
+}

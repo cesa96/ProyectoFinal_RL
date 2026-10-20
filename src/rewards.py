@@ -1,7 +1,6 @@
 """Registro de funciones de recompensa.
 
-Este archivo pertenece a la Persona 5 (diseño e iteración de la recompensa).
-La Persona 4 solo dejó el registro con la versión inicial para que train.py
+Este módulo registra las versiones de recompensa para que train.py
 pueda entrenar cualquier versión por nombre:
 
     python -m src.train --reward v1_net_return
@@ -52,9 +51,9 @@ from typing import Callable
 from src.environment import NetReturnReward
 
 # ----------------------------------------------------------------------
-# Iteración de la recompensa (Persona 5)
+# Iteración de la recompensa
 # ----------------------------------------------------------------------
-# Diagnóstico de la v1 (docs/informe_persona4.md, sección 4.3; validación):
+# Diagnóstico de la v1 (docs/algoritmo_y_entrenamiento.md, sección 4.3; validación):
 #   1. El agente pasa ~97 % del tiempo al 100 % y no supera a comprar y
 #      mantener ni en retorno (+59,8 % frente a +79,3 %) ni en drawdown
 #      (−36,2 % frente a −30,9 %).

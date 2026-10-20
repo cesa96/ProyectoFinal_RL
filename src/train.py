@@ -1,4 +1,4 @@
-"""Entrenamiento del agente DQN (Persona 4).
+"""Entrenamiento del agente DQN.
 
 Uso
 ---
@@ -6,14 +6,14 @@ Entrenar la recompensa configurada con todas las semillas de configs/dqn.toml:
 
     python -m src.train
 
-Entrenar otra versión de la recompensa (definida por la Persona 5 en
+Entrenar otra versión de la recompensa (definida en
 src/rewards.py) o cambiar semillas / pasos sin editar el archivo:
 
     python -m src.train --reward v2_mi_recompensa
     python -m src.train --seeds 42 43 44 --timesteps 300000
 
 Congelar el agente final que eligió el equipo (con validación) para entregarlo
-a la Persona 6:
+a la evaluación final:
 
     python -m src.train --freeze runs/v1_net_return/seed_42
 
@@ -296,7 +296,7 @@ def validation_buy_and_hold(config: dict) -> dict:
 
     Usa el mismo entorno y costos que el agente (acción 100 % en todo momento).
     Solo es una línea de referencia del periodo de validación; la comparación
-    oficial contra baselines la hace la Persona 6.
+    oficial contra baselines se ejecuta con src.evaluate.
     """
     _, validation_env = make_train_and_validation_envs(config)
     full = len(validation_env.fractions) - 1
@@ -391,7 +391,7 @@ def freeze(run_dir: Path, destination: Path, force: bool = False) -> Path:
 # CLI
 # ----------------------------------------------------------------------
 def parse_args(argv=None):
-    parser = argparse.ArgumentParser(description="Entrenamiento DQN (Persona 4)")
+    parser = argparse.ArgumentParser(description="Entrenamiento DQN")
     parser.add_argument("--config", type=Path, default=DEFAULT_DQN_CONFIG)
     parser.add_argument("--reward", help="nombre de la recompensa en src/rewards.py")
     parser.add_argument("--seeds", type=int, nargs="+")

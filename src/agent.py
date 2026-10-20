@@ -1,4 +1,4 @@
-"""Agente DQN (Persona 4).
+"""Agente DQN.
 
 Responsabilidades de este módulo:
 
@@ -7,7 +7,7 @@ Responsabilidades de este módulo:
 * Construir el modelo DQN de Stable-Baselines3 con los hiperparámetros del
   archivo de configuración.
 * Ofrecer la interfaz `agent.act(obs)` del enunciado para que la evaluación y
-  los baselines (Persona 6) usen al agente igual que a cualquier otra estrategia.
+  los baselines usen al agente igual que a cualquier otra estrategia.
 * Recorrer un episodio completo con una política y resumirlo (lo usa train.py
   para evaluar en validación durante el entrenamiento).
 
@@ -139,7 +139,7 @@ def run_episode(
 
     `env` debe haberse creado con record_history=True. Las métricas aquí son
     las mínimas para seleccionar checkpoints en validación; la evaluación final
-    y su tabla de resultados las produce la Persona 6 (src/metrics.py).
+    y su tabla de resultados se calculan con src/metrics.py.
     """
     obs, _ = env.reset(seed=seed)
     done = False

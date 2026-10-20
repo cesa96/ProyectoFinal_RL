@@ -1,4 +1,4 @@
-"""Pruebas del agente y del protocolo de entrenamiento (Persona 4)."""
+"""Pruebas del agente y del protocolo de entrenamiento."""
 
 from __future__ import annotations
 

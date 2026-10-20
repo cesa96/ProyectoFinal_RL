@@ -1,4 +1,4 @@
-# Configuración del agente DQN y del protocolo de entrenamiento (Persona 4).
+# Configuración del agente DQN y del protocolo de entrenamiento.
 #
 # Todos los hiperparámetros exigidos en el punto 10 del enunciado están aquí.
 # src/train.py lee este archivo; no se deben poner hiperparámetros en el código.
@@ -27,7 +27,7 @@ exploration_final_eps = 0.05
 exploration_fraction = 0.3         # fracción del entrenamiento en que epsilon decae
 
 [env]
-# Deben coincidir con los acuerdos del equipo y con los baselines (Persona 6).
+# Deben coincidir con los acuerdos del equipo y con los baselines.
 initial_capital = 100_000.0
 transaction_cost_bps = 10.0
 # Entrenamiento con episodios cortos y arranque aleatorio dentro del periodo de
@@ -37,7 +37,7 @@ train_episode_length = 1_024
 train_random_start = true
 
 [training]
-reward = "v1_net_return"           # nombre en src/rewards.py (lo define la Persona 5)
+reward = "v1_net_return"           # nombre en src/rewards.py (registro de recompensas)
 total_timesteps = 300_000          # presupuesto máximo de pasos
 seeds = [42, 43, 44]               # al menos 3 semillas para medir la variabilidad
 output_dir = "runs"

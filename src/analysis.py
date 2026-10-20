@@ -1,4 +1,4 @@
-"""Herramientas para analizar el comportamiento del agente (apoyo a la Persona 5).
+"""Herramientas para analizar el comportamiento del agente.
 
 Permiten diagnosticar y comparar versiones de la recompensa sin escribir código
 nuevo. Solo trabajan con las particiones de entrenamiento y validación: el

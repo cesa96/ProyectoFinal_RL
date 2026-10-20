@@ -1,4 +1,4 @@
-"""Pruebas de las funciones de recompensa (Persona 5)."""
+"""Pruebas de las funciones de recompensa."""
 
 import numpy as np
 import pytest

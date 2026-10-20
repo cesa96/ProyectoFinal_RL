@@ -1,4 +1,4 @@
-"""Pruebas del flujo de la Persona 5: nueva recompensa -> entrenar -> analizar."""
+"""Pruebas del ciclo de la recompensa: nueva recompensa -> entrenar -> analizar."""
 
 from __future__ import annotations
 

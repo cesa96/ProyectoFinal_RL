@@ -1,7 +1,7 @@
-"""Reporte de la iteración de la recompensa (Persona 5).
+"""Reporte de la iteración de la recompensa.
 
-Complementa `python -m src.analysis compare` con las medidas robustas que la
-Persona 4 usó en el estudio de sensibilidad: el mejor checkpoint es el máximo
+Complementa `python -m src.analysis compare` con las medidas robustas usadas
+en el estudio de sensibilidad: el mejor checkpoint es el máximo
 de ~15 evaluaciones ruidosas de validación y por eso es optimista. Aquí se
 reportan además el último checkpoint, el promedio de la segunda mitad del
 entrenamiento y cuántas evaluaciones superan a comprar y mantener.
@@ -33,7 +33,7 @@ REWARDS = [
 ]
 LATE_FROM = 150_000  # segunda mitad del presupuesto de 300.000 pasos
 # Comprar y mantener en validación con el mismo entorno y costos
-# (docs/informe_persona4.md, sección 4).
+# (docs/algoritmo_y_entrenamiento.md, sección 4).
 BUY_AND_HOLD_RETURN = 0.7933
 BUY_AND_HOLD_DRAWDOWN = -0.309
 
