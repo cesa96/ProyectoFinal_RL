@@ -1,10 +1,12 @@
-# Camilo Briceño — Diseño e iteración de la función de recompensa
+# Diseño e iteración de la función de recompensa
 
-> Secciones del informe a cargo de Camilo Briceño. Todas las versiones se
+**Autor del desarrollo original:** Camilo Briceño.
+Documento revisado para integrar las correcciones técnicas de la entrega final.
+
+> Todas las versiones de la recompensa se
 > entrenaron con la configuración final (`configs/dqn.toml`
-> sin cambios), las mismas semillas (42, 43, 44) y el mismo protocolo, de modo
-> que las diferencias se pueden atribuir a la recompensa. Todo se mide en
-> validación (2024-10-01 a 2025-09-30). El held-out no se ha usado.
+> sin cambios), las mismas semillas (42, 43, 44) y el mismo protocolo, para comparar el efecto de la recompensa bajo un protocolo común. Todo se mide en
+> validación (2024-10-01 a 2025-09-30). Esta sección compara únicamente validación; los resultados finales se presentan en el [README principal](../README.md#resultados-e-interpretación).
 > Como referencia, comprar y mantener obtiene en validación **+79,3 %** con un
 > máximo drawdown de **−30,9 %**.
 
@@ -45,7 +47,7 @@ r_t = (V_(t+1) − V_t) / V_t
 
 Es la recompensa más directa: sumar r_t a lo largo del episodio aproxima el
 retorno acumulado, y como V_(t+1) ya descuenta el costo de transacción, operar
-se castiga sin términos adicionales. El diagnóstico (Persona 4, sección 4.3)
+se castiga sin términos adicionales. El diagnóstico (Algoritmo y entrenamiento, sección 4.3)
 mostró dos problemas:
 
 1. **Riesgo sin compensación.** El agente pasa ~97 % del tiempo al 100 % y,
@@ -110,7 +112,7 @@ Ver la sección 5.
 
 ### v4 y v5: λ calibrado con los datos de entrenamiento
 
-La anomalía de la v3 se debe a la escala de λ, y esa escala se puede calcular
+La anomalía de la v3 es compatible con una escala excesiva de λ, y esa escala se puede calcular
 **solo con el periodo de entrenamiento** (episodios de 1.024 horas, comprar y
 mantener):
 
@@ -121,8 +123,7 @@ mantener):
 | λ que iguala ambas (punto de equilibrio) | ≈ 0,039 |
 
 Con λ = 1, la penalización esperada es ~25 veces la ganancia esperada de estar
-invertido, así que para la v3 estar en efectivo es, literalmente, la mejor
-política. Se corrigió así:
+invertido, lo que favorece una política conservadora. Este cálculo sobre comprar y mantener no demuestra que permanecer en efectivo sea la política óptima entre todas las posibles. Se corrigió así:
 
 - **v4 (`v4_drawdown_scaled`)**: la misma fórmula con λ = 0,02, la mitad del
   punto de equilibrio. Estar invertido sigue teniendo recompensa esperada
@@ -153,7 +154,7 @@ validación.
 ### 4.2 Medidas robustas
 
 El mejor checkpoint es el máximo de ~15 evaluaciones ruidosas de validación
-(Persona 4, sección 4.2), así que es optimista. Por eso la elección se basa
+(Algoritmo y entrenamiento, sección 4.2), así que es optimista. Por eso la elección se basa
 en las medidas que no dependen de quedarse con el pico
 (`python -m src.reward_report`, `runs/comparison/reward_robust.md`):
 
@@ -184,12 +185,12 @@ en las medidas que no dependen de quedarse con el pico
   distintas (la 42 pasa el 91 % del tiempo al 50 %, la 44 el 98 % al 100 %).
   Una penalización por drawdown, por sí sola, empuja a salir en las caídas,
   que es justo el *whipsaw* que se quería evitar. Este resultado confirma lo
-  que la Persona 4 anticipaba en su sección 4.4: penalizar el riesgo tiene el
+  que el análisis del entrenamiento anticipaba: penalizar el riesgo tiene el
   costo de quedarse fuera de los rebotes.
 - **v5 (ambas penalizaciones)** es la única que mejora todas las medidas a la
   vez frente a la v1 (la v3 tiene menos drawdown, pero porque no invierte). Las dos penalizaciones se complementan: la de drawdown le da al agente
   una razón para reducir la exposición en caídas fuertes, y la de operar
-  impide que lo haga por cada movimiento de una hora. En febrero–abril de la
+  desincentiva reaccionar a cada movimiento de una hora. En febrero–abril de la
   semilla 43 hace 16 operaciones (la v1, 109), atraviesa la caída casi siempre
   invertida y termina por encima de comprar y mantener en ese tramo.
 
@@ -211,14 +212,15 @@ entre el 99,4 % y el 99,6 % del año de validación. El "mejor" checkpoint de la
 semilla 43 termina en +4,8 % con un drawdown de solo −2,9 %, frente al +79,3 %
 del mercado.
 
-**Por qué es reward hacking.** La recompensa se diseñó para que el agente
-evitara el riesgo *mientras invierte*, pero encontró una forma más barata de
-maximizarla: no invertir. Estar en efectivo da recompensa 0 en cada paso, y
-estar invertido da, en promedio, +0,0074 % − 1 × 0,188 % < 0 por hora. Para el
-agente, la recompensa esperada de comprar y mantener es negativa, así que
-optimiza correctamente una función que no representa el objetivo financiero.
-El error no fue del algoritmo sino de la escala de λ, y se podía detectar
-antes de entrenar con un cálculo sobre los datos de entrenamiento (sección 3).
+**Por qué puede interpretarse como reward hacking.** La recompensa buscaba reducir
+el riesgo mientras el agente invierte, pero la política aprendida permaneció casi
+siempre en efectivo. Mantener efectivo da recompensa 0 por paso, mientras que
+el cálculo sobre comprar y mantener en entrenamiento produce, en promedio,
++0,0074 % − 1 × 0,188 % < 0 por hora. Esto es compatible con una penalización
+que desincentiva participar en el mercado y con una discrepancia entre la señal
+de aprendizaje y el objetivo financiero. El cálculo permite detectar un
+problema de escala de λ, pero no demuestra que permanecer en efectivo sea la
+política óptima global ni descarta otras causas del comportamiento observado.
 
 **Un detalle que no se explica del todo.** Las pocas veces que la v3 entra al
 mercado (43 operaciones, unas 35 horas en total) lo hace por una o dos horas,
@@ -226,10 +228,7 @@ y en esas horas el activo sube en promedio +0,32 %, unas 40 veces el promedio
 del año. Parece que el agente solo invierte cuando espera un movimiento muy
 grande. Sin embargo, la muestra es pequeña y sus valores Q para las tres
 acciones son casi idénticos (≈ 0,08), así que la decisión depende de
-diferencias mínimas en Q: puede ser una señal real o simple ruido. Además,
-Q ≈ 0,08 para estar en efectivo es extraño, porque la recompensa de ese estado
-es 0; probablemente refleja el sesgo de sobreestimación de DQN, que toma el
-máximo sobre valores Q ruidosos (Double DQN lo corrige).
+diferencias mínimas en Q: puede ser una señal real o simple ruido. Además, un Q positivo para la acción de estar en efectivo no prueba sobreestimación: representa la recompensa futura descontada, incluida la posibilidad de invertir en pasos posteriores. Distinguir una oportunidad aprendida de ruido requiere más observaciones y un análisis adicional. Double DQN sería una alternativa para estudiar el sesgo de sobreestimación, no una explicación comprobada de este caso.
 
 ## 6. Limitaciones
 
@@ -266,12 +265,16 @@ dispersión entre semillas en drawdown.
 Para no elegir la semilla con el resultado más alto (otro máximo optimista), se
 propone congelar la **semilla de resultado mediano, la 42** (+91,0 %, −29,9 % de
 drawdown, 38 operaciones en validación); la 43 obtuvo +100,6 % y la 44
-+73,2 %. La decisión final se toma con la Persona 6 antes de la evaluación en
++73,2 %. La selección se establece antes de la evaluación en
 held-out:
 
 ```bash
-python -m src.train --freeze runs/v5_turnover_drawdown/seed_42
+python -m src.freeze_evaluation --run runs/v5_turnover_drawdown/seed_42
 ```
+
+El modelo y el protocolo de esta selección ya están incluidos en `models/final/`.
+Para reproducir la evaluación en una carpeta separada, siga las instrucciones
+del [README principal](../README.md#reproducción-y-verificación).
 
 ![v5, semilla 42, validación completa](figuras/comportamiento_v5_seed42.png)
 
@@ -301,7 +304,7 @@ python -m pytest tests/test_rewards.py
 
 Con las versiones fijadas y la misma máquina, los resultados son idénticos: la
 v1 se reentrenó como control y reprodujo exactamente las evaluaciones de la
-Persona anterior.
+corrida de referencia.
 
 ## Referencias
 

@@ -139,7 +139,7 @@ Vincular cada cambio de recompensa con una conducta observada y evaluar sus efec
 
 7. Elección final. Cumplida. La recomendación v5 y semilla 42 procede de validación y se conserva para la prueba. Las medidas llamadas robustas reducen la dependencia del mejor pico, pero siguen perteneciendo al mismo año de validación y no son evidencia independiente.
 
-Entrega organizada: src/rewards.py, src/analysis.py, src/reward_report.py, docs/diseno_de_recompensas.md y runs/comparison. Los módulos y documentos cubren el análisis previsto sin requerir un notebook adicional con el mismo contenido.
+Entrega organizada: src/rewards.py, src/analysis.py, src/reward_report.py, docs/informe_Camilo_Briceno.md y runs/comparison. Los módulos y documentos cubren el análisis previsto sin requerir un notebook adicional con el mismo contenido.
 
 ## Evaluación y comparación de estrategias
 

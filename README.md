@@ -15,6 +15,15 @@ Este README contiene la documentación principal de la entrega. Los análisis
 detallados, el código, los datos, los modelos y los resultados se enlazan desde
 cada actividad; no se requiere un informe Word para consultar el trabajo.
 
+## Integrantes
+
+- Cesar Camilo Rojas
+- Camilo Briceño
+- Sabrina Miranda
+- Carlos Caicedo
+- Cesar Garcia
+- Maria Paula Arciniegas
+
 ## Contenido
 
 1. [Instalación y estructura](#instalación-y-estructura)
@@ -353,7 +362,7 @@ python -m src.analysis inspect runs/v3_drawdown_penalty/seed_43
 
 El módulo de análisis bloquea la selección de held-out. La comparación original
 está en [runs/comparison](runs/comparison) y la discusión en
-[docs/diseno_de_recompensas.md](docs/diseno_de_recompensas.md).
+[docs/informe_Camilo_Briceno.md](docs/informe_Camilo_Briceno.md).
 
 Un resultado relevante es que v3 permanece casi siempre en efectivo: una
 penalización muy alta por drawdown reduce la participación. El valor Q positivo
@@ -628,7 +637,7 @@ límites del resultado.
 Documentación organizada:
 
 - [Algoritmo y entrenamiento](docs/algoritmo_y_entrenamiento.md).
-- [Diseño e iteración de recompensas](docs/diseno_de_recompensas.md).
+- [Diseño e iteración de recompensas](docs/informe_Camilo_Briceno.md).
 - [Revisión detallada por actividades](docs/revision_por_actividades.md).
 
 ## Reproducción y verificación
