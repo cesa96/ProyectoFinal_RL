@@ -270,6 +270,24 @@ diferencia se deba solo a la recompensa. El diagnóstico de la v1 está en
 pasa ~97 % del tiempo invertido, no supera a comprar y mantener y concentra
 sus operaciones en las caídas de alta volatilidad (febrero–abril de 2025).
 
+### Versiones entrenadas y resultado (Persona 5)
+
+| Nombre en `src/rewards.py` | Recompensa |
+|---|---|
+| `v1_net_return` | retorno neto de costos |
+| `v2_turnover_penalty` | v1 − 0,002 × cambio de posición |
+| `v3_drawdown_penalty` | v1 − 1 × profundización del drawdown |
+| `v4_drawdown_scaled` | v1 − 0,02 × profundización del drawdown (λ calibrado con entrenamiento) |
+| `v5_turnover_drawdown` | v1 − 0,002 × cambio de posición − 0,02 × profundización del drawdown |
+
+Las cuatro versiones nuevas se entrenaron con `configs/dqn.toml` sin cambios.
+Además de `src.analysis compare`, `python -m src.reward_report` genera las
+medidas robustas (último checkpoint, promedio de la segunda mitad del
+entrenamiento) en `runs/comparison/reward_robust.md`. Diseño, comparación,
+ejemplo de comportamiento anómalo (la v3 aprende a no invertir) y
+recomendación del agente final (v5) en
+[`docs/informe_Camilo_Briceno.md`](docs/informe_Camilo_Briceno.md).
+
 ## Evaluación y baselines
 
 ```bash
