@@ -1,0 +1,8 @@
+# El protocolo compara SHA-256 del contenido exacto de estos archivos.
+# Evitar conversiones LF/CRLF al publicar o clonar en otro sistema.
+/src/*.py -text whitespace=cr-at-eol
+/configs/*.toml -text whitespace=cr-at-eol
+/pyproject.toml -text whitespace=cr-at-eol
+/models/final/* -text whitespace=cr-at-eol
+/data/*.pkl -text
+/results/held_out/*.json -text whitespace=cr-at-eol
