@@ -1,0 +1,30 @@
+...................................................                      [100%]
+============================== warnings summary ===============================
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+  C:\Users\camil\Documents\Codex\2026-10-20\ne\work\rl_env\Lib\site-packages\matplotlib\_fontconfig_pattern.py:64: PyparsingDeprecationWarning: 'oneOf' deprecated - use 'one_of'
+    prop = Group((name + Suppress("=") + comma_separated(value)) | oneOf(_CONSTANTS))
+
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+  C:\Users\camil\Documents\Codex\2026-10-20\ne\work\rl_env\Lib\site-packages\matplotlib\_fontconfig_pattern.py:85: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'
+    parse = parser.parseString(pattern)
+
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+  C:\Users\camil\Documents\Codex\2026-10-20\ne\work\rl_env\Lib\site-packages\matplotlib\_fontconfig_pattern.py:89: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+tests/test_analysis.py::test_new_reward_can_be_trained_inspected_and_compared
+  C:\Users\camil\Documents\Codex\2026-10-20\ne\work\rl_env\Lib\site-packages\matplotlib\_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+51 passed, 14 warnings in 190.43s (0:03:10)

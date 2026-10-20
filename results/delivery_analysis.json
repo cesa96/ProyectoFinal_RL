@@ -1,0 +1,104 @@
+{
+  "quality": {
+    "source_rows": 59122,
+    "clean_rows": 59122,
+    "start": "2020-01-01T06:00:00+00:00",
+    "end": "2026-09-30T23:00:00+00:00",
+    "input_was_chronological": true,
+    "duplicate_rows": 0,
+    "rows_with_nulls": 0,
+    "null_values_by_column": {
+      "timestamp": 0,
+      "open": 0,
+      "high": 0,
+      "low": 0,
+      "close": 0,
+      "volume": 0
+    },
+    "missing_timestamps": 32,
+    "missing_timestamp_examples": [
+      "dataset: 2020-02-09T02:00:00+00:00",
+      "dataset: 2020-02-19T12:00:00+00:00",
+      "dataset: 2020-02-19T13:00:00+00:00",
+      "dataset: 2020-02-19T14:00:00+00:00",
+      "dataset: 2020-02-19T15:00:00+00:00",
+      "dataset: 2020-02-19T16:00:00+00:00",
+      "dataset: 2020-03-04T10:00:00+00:00",
+      "dataset: 2020-04-25T02:00:00+00:00",
+      "dataset: 2020-04-25T03:00:00+00:00",
+      "dataset: 2020-06-28T02:00:00+00:00"
+    ],
+    "rows_by_series": {
+      "dataset": 59122
+    },
+    "missing_timestamps_by_series": {
+      "dataset": 32
+    }
+  },
+  "partitions": {
+    "train": {
+      "rows": 41634,
+      "synthetic": 32,
+      "first": "2020-01-01 06:00:00+00:00",
+      "last": "2024-09-30 23:00:00+00:00",
+      "price_return": 7.764312266629023,
+      "price_drawdown": -0.7719848663243956,
+      "hourly_return_mean": 7.636889295780881e-05,
+      "hourly_volatility": 0.007098958590423296,
+      "skew": -0.4414663572094072,
+      "excess_kurtosis": 47.70313057007994
+    },
+    "validation": {
+      "rows": 8760,
+      "synthetic": 0,
+      "first": "2024-10-01 00:00:00+00:00",
+      "last": "2025-09-30 23:00:00+00:00",
+      "price_return": 0.795141786051405,
+      "price_drawdown": -0.3093611235818756,
+      "hourly_return_mean": 7.872876972942622e-05,
+      "hourly_volatility": 0.004883952675810813,
+      "skew": -0.06006867165768221,
+      "excess_kurtosis": 11.397138242337718
+    },
+    "held_out": {
+      "rows": 8760,
+      "synthetic": 0,
+      "first": "2025-10-01 00:00:00+00:00",
+      "last": "2026-09-30 23:00:00+00:00",
+      "price_return": -0.2679976887159812,
+      "price_drawdown": -0.5374206479139391,
+      "hourly_return_mean": -2.4617891002727082e-05,
+      "hourly_volatility": 0.004689527431110254,
+      "skew": -0.07254967488057347,
+      "excess_kurtosis": 9.012681427583983
+    }
+  },
+  "drawdown_event": {
+    "peak_time": "2025-10-06 18:00:00+00:00",
+    "trough_time": "2026-06-30 15:00:00+00:00",
+    "peak_value": 107086.22487728292,
+    "trough_value": 46859.13167580764
+  },
+  "longest_position_hours": 1812,
+  "changed_intervals": 53,
+  "transition_hours": {
+    "0": 67,
+    "0.5": 27,
+    "1": 8665
+  },
+  "validation_match": {
+    "strategy": "rl",
+    "seed": 42,
+    "final_value": 191038.16438535432,
+    "total_return": 0.9103816438535433,
+    "max_drawdown": -0.29895524243687366,
+    "total_cost": 3695.061306585505,
+    "n_trades": 38,
+    "turnover": 26.0,
+    "mean_exposure": 0.9944057540815161,
+    "n_steps": 8759,
+    "pct_time_0": 0.0038817216577234845,
+    "pct_time_50": 0.0034250485215207216,
+    "pct_time_100": 0.9926932298207558
+  }
+}
